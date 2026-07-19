@@ -1,0 +1,2 @@
+2026-07-19 16:48:27,049 [INFO] Starting financial ETL pipeline run
+2026-07-19 16:48:27,479 [INFO] Pipeline completed successfully. Fetched: 6 | Loaded: 6 | Rejected: 0
