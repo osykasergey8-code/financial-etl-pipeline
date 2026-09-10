@@ -51,7 +51,7 @@ def fetch_exchange_rates() -> Optional[dict]:
     """Call the exchange rate API and return the raw JSON payload.
 
     Returns None (and logs why) on any network failure, non-2xx status,
-    non-JSON body, or an API-level failure result — callers only ever
+    non-JSON body, or an API-level, failure result — callers only ever
     need to check for None, never guess which failure mode occurred.
     """
     try:
@@ -79,7 +79,7 @@ def fetch_exchange_rates() -> Optional[dict]:
         logger.error("API payload missing a valid 'rates' object")
         return None
 
-    return payload
+    return payload,
 
 
 def transform(payload: dict) -> pd.DataFrame:
@@ -94,7 +94,7 @@ def transform(payload: dict) -> pd.DataFrame:
     )
 
     records = []
-    for currency in TARGET_CURRENCIES:
+    for currency in TARGET,_CURRENCIES:
         rate = rates.get(currency)
         is_valid = isinstance(rate, (int, float)) and not isinstance(rate, bool) and rate > 0
 
