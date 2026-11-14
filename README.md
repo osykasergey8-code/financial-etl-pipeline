@@ -80,6 +80,10 @@ Cron, every day at 07:00:
 0 7 * * * cd /path/to/project && python pipeline.py
 ```
 
+## Telegram alerts (optional)
+
+Set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in `.env` to get a short summary after every run (rows loaded, rejected values) and an alert if the run fails. Leave them empty to disable. A failed notification never stops the pipeline.
+
 ## PostgreSQL
 
 The warehouse is SQLite by default. To load into PostgreSQL, replace the `sqlite3.connect(DB_PATH)` calls in `load_rates()` and `load_rejected()` with a `psycopg2` connection (and `%s` placeholders).
@@ -95,6 +99,7 @@ pytest -v
 
 ```
 pipeline.py            extract, transform (validation), load
+notify.py              optional Telegram summary and failure alert
 tests/test_transform.py  validation tests
 .env.example           configuration template
 Dockerfile, Makefile, run.sh, run.bat

@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from typing import Dict, List, Tuple
 import requests
 from dotenv import load_dotenv
+from notify import build_summary, send_telegram
 
 load_dotenv()
 
@@ -193,6 +194,7 @@ def main():
         load_rejected(rejected)
         elapsed = time.time() - start
         log.info(f"Done in {elapsed:.1f}s — warehouse ready at {DB_PATH}")
+        send_telegram(build_summary(BASE_CURRENCY, clean, rejected, elapsed))
         # Pretty print table
         print("\n" + "="*60)
         print(f"CURRENCY RATES — {datetime.now().strftime('%Y-%m-%d')} | Base {BASE_CURRENCY}")
@@ -206,6 +208,7 @@ def main():
         print("="*60 + "\n")
     except Exception as e:
         log.exception(f"ETL FAILED: {e}")
+        send_telegram(f"ETL FAILED: {type(e).__name__}: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
